@@ -49,14 +49,14 @@ func New(cfg *Config) *Client {
 // Generate generates a video from an image and a text prompt.
 func (c *Client) Generate(ctx context.Context, image, text, output string,
 	extend int, interpolate, upscale, watermark bool) (string, string, error) {
-	b, err := os.ReadFile(image)
-	if err != nil {
-		return "", "", fmt.Errorf("vidai: couldn't read image: %w", err)
-	}
-	name := filepath.Base(image)
 
 	var imageURL string
 	if image != "" {
+		b, err := os.ReadFile(image)
+		if err != nil {
+			return "", "", fmt.Errorf("vidai: couldn't read image: %w", err)
+		}
+		name := filepath.Base(image)
 		imageURL, err = c.client.Upload(ctx, name, b)
 		if err != nil {
 			return "", "", fmt.Errorf("vidai: couldn't upload image: %w", err)
