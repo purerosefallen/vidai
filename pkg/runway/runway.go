@@ -264,7 +264,7 @@ type artifact struct {
 	} `json:"metadata"`
 }
 
-func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool) (string, string, error) {
+func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool, exploreMode bool) (string, string, error) {
 	// Load team ID
 	if err := c.loadTeamID(ctx); err != nil {
 		return "", "", fmt.Errorf("runway: couldn't load team id: %w", err)
@@ -308,7 +308,7 @@ func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, inte
 			},
 			Name:           fmt.Sprintf("Gen-2, %d", seed),
 			AssetGroupName: "Gen-2",
-			ExploreMode:    false,
+			ExploreMode:    exploreMode,
 		},
 		AsTeamID: c.teamID,
 	}
