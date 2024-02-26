@@ -69,6 +69,9 @@ func (c *Client) Generate(ctx context.Context, image, text, output string,
 
 	// Extend video
 	for i := 0; i < extend; i++ {
+		if seed > 0 {
+			seed++
+		}
 		id, videoURL, err = c.client.Generate(ctx, videoURL, "", interpolate, upscale, watermark, true, exploreMode, seed)
 		if err != nil {
 			return "", "", fmt.Errorf("vidai: couldn't extend video: %w", err)
