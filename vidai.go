@@ -94,7 +94,7 @@ func (c *Client) Generate(ctx context.Context, image, text, output string,
 
 // Extend extends a video using the previous video.
 func (c *Client) Extend(ctx context.Context, input, output string, n int,
-	interpolate, upscale, watermark bool, exploreMode bool, seed: int) ([]string, error) {
+	interpolate, upscale, watermark bool, exploreMode bool, seed int) ([]string, error) {
 	base := strings.TrimSuffix(filepath.Base(input), filepath.Ext(input))
 
 	// Copy input video to temp file

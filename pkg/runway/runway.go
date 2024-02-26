@@ -264,14 +264,14 @@ type artifact struct {
 	} `json:"metadata"`
 }
 
-func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool, exploreMode bool, seed: int) (string, string, error) {
+func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool, exploreMode bool, seed int) (string, string, error) {
 	// Load team ID
 	if err := c.loadTeamID(ctx); err != nil {
 		return "", "", fmt.Errorf("runway: couldn't load team id: %w", err)
 	}
 
 	// Generate seed
-	if seed == nil || seed == 0 {
+	if seed == 0 {
 		seed = rand.Intn(1000000000)
 	}
 
