@@ -96,6 +96,7 @@ func newGenerateCommand() *ffcli.Command {
 	upscale := fs.Bool("upscale", false, "upscale frames (optional)")
 	watermark := fs.Bool("watermark", false, "add watermark (optional)")
 	exploreMode := fs.Bool("explore", false, "explore mode (optional)")
+	seed := fs.Int("seed", 0, "seed for the generation (optional)")
 
 	return &ffcli.Command{
 		Name:       cmd,
@@ -116,7 +117,7 @@ func newGenerateCommand() *ffcli.Command {
 			}
 			c := vidai.New(&cfg)
 			id, u, err := c.Generate(ctx, *image, *text, *output, *extend,
-				*interpolate, *upscale, *watermark, *exploreMode)
+				*interpolate, *upscale, *watermark, *exploreMode, *seed)
 			if err != nil {
 				return err
 			}
@@ -142,6 +143,7 @@ func newExtendCommand() *ffcli.Command {
 	upscale := fs.Bool("upscale", false, "upscale frames (optional)")
 	watermark := fs.Bool("watermark", false, "add watermark (optional)")
 	exploreMode := fs.Bool("explore", false, "explore mode (optional)")
+	seed := fs.Int("seed", 0, "seed for the generation (optional)")
 
 	return &ffcli.Command{
 		Name:       cmd,
@@ -165,7 +167,7 @@ func newExtendCommand() *ffcli.Command {
 			}
 
 			c := vidai.New(&cfg)
-			urls, err := c.Extend(ctx, *input, *output, *n, *interpolate, *upscale, *watermark, *exploreMode)
+			urls, err := c.Extend(ctx, *input, *output, *n, *interpolate, *upscale, *watermark, *exploreMode, *seed)
 			if err != nil {
 				return err
 			}
