@@ -48,7 +48,7 @@ func New(cfg *Config) *Client {
 
 // Generate generates a video from an image and a text prompt.
 func (c *Client) Generate(ctx context.Context, image, text, output string,
-	extend int, interpolate, upscale, watermark bool, exploreMode bool, seed int) (string, string, error) {
+	extend int, interpolate, upscale, watermark bool, exploreMode bool, seed int, width int, height int) (string, string, error) {
 
 	var imageURL string
 	if image != "" {
@@ -62,7 +62,7 @@ func (c *Client) Generate(ctx context.Context, image, text, output string,
 			return "", "", fmt.Errorf("vidai: couldn't upload image: %w", err)
 		}
 	}
-	id, videoURL, err := c.client.Generate(ctx, imageURL, text, interpolate, upscale, watermark, false, exploreMode, seed)
+	id, videoURL, err := c.client.Generate(ctx, imageURL, text, interpolate, upscale, watermark, false, exploreMode, seed, width, height)
 	if err != nil {
 		return "", "", fmt.Errorf("vidai: couldn't generate video: %w", err)
 	}
@@ -72,7 +72,7 @@ func (c *Client) Generate(ctx context.Context, image, text, output string,
 		if seed > 0 {
 			seed++
 		}
-		id, videoURL, err = c.client.Generate(ctx, videoURL, "", interpolate, upscale, watermark, true, exploreMode, seed)
+		id, videoURL, err = c.client.Generate(ctx, videoURL, "", interpolate, upscale, watermark, true, exploreMode, seed, 0, 0)
 		if err != nil {
 			return "", "", fmt.Errorf("vidai: couldn't extend video: %w", err)
 		}
@@ -134,7 +134,7 @@ func (c *Client) Extend(ctx context.Context, input, output string, n int,
 		if err != nil {
 			return nil, fmt.Errorf("vidai: couldn't upload image: %w", err)
 		}
-		_, videoURL, err := c.client.Generate(ctx, imageURL, "", interpolate, upscale, watermark, false, exploreMode, seed)
+		_, videoURL, err := c.client.Generate(ctx, imageURL, "", interpolate, upscale, watermark, false, exploreMode, seed, 0, 0)
 		if err != nil {
 			return nil, fmt.Errorf("vidai: couldn't generate video: %w", err)
 		}

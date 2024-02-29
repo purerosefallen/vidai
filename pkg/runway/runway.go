@@ -210,6 +210,8 @@ type gen2Options struct {
 	MotionScore      int    `json:"motion_score"`
 	UseMotionScore   bool   `json:"use_motion_score"`
 	UseMotionVectors bool   `json:"use_motion_vectors"`
+	Width            int    `json:"width,omitempty"`
+	Height           int    `json:"height,omitempty"`
 }
 
 type taskResponse struct {
@@ -264,7 +266,7 @@ type artifact struct {
 	} `json:"metadata"`
 }
 
-func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool, exploreMode bool, seed int) (string, string, error) {
+func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, interpolate, upscale, watermark, extend bool, exploreMode bool, seed int, width int, height int) (string, string, error) {
 	// Load team ID
 	if err := c.loadTeamID(ctx); err != nil {
 		return "", "", fmt.Errorf("runway: couldn't load team id: %w", err)
@@ -307,6 +309,8 @@ func (c *Client) Generate(ctx context.Context, assetURL, textPrompt string, inte
 				Mode:           "gen2",
 				UseMotionScore: true,
 				MotionScore:    22,
+				Width:          width,
+				Height:         height,
 			},
 			Name:           fmt.Sprintf("Gen-2, %d", seed),
 			AssetGroupName: "Gen-2",
